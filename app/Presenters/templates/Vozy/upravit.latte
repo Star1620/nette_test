@@ -1,0 +1,63 @@
+{block content}
+
+
+<div id="banner">
+
+	<h1 n:block=title>Editace vozidla</h1>
+}
+        {foreach $vuz as $kus}
+            <p><a n:href="Vozy:vuz $kus->vin">← zpět na detail vozidla</a></p>
+        {/foreach}
+</div>
+
+<div id="content">
+    {*form vuzForm*}
+
+        <div class="row">
+            <h2><b>Vozidlo {$kus->spz} : {$kus->vyrobce_vozu} - {$kus->model_vozu} </b></h2>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                
+            </div>
+            <div class="col-4">
+                <p><b>Aktuální stav :</b></p>
+            </div>
+            <div class="col-5">
+                <p><b> Upravit :</b></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <td>Oddělení : </td><td>{$kus->oddeleni}</td>
+                        </tr>
+                        <tr>
+                            <td>Řidič : </td><td>{$kus->jmeno} {$kus->prijmeni}</td>
+                        </tr>
+                        <tr>
+                            <td>Zapůjčeno : </td><td>{$kus->prirazeni_zacatek|date: 'Y-m-d'}</td>
+                        </tr>
+                        <tr>
+                            <td>Poslední servis : </td><td>{$kus->posledni_servis|date: 'Y-m-d'}</td>
+                        </tr>
+                        <tr>
+                            <td>Poslední STK : </td><td>{$kus->posledni_stk|date: 'Y-m-d'}</td>
+                        </tr>
+                        <tr>
+                            <td>VIN : </td><td>{$kus->vin}</td>
+                        </tr>
+                </table>
+            </div>
+            <div class="col-6">
+                {control vuzeditForm}
+            </div>
+        </div>
+        
+    {*/form*}
+</div>
+
+
+{/block}

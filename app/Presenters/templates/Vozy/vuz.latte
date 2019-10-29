@@ -1,0 +1,41 @@
+{* This is the welcome page, you can delete it *}
+{block content}
+
+
+<div id="banner">
+
+	<h1 n:block=title>Vozový park - vůz</h1>
+
+        <p><a n:href="Homepage:default">← zpět na výpis vozů</a></p>
+</div>
+
+<div id="content">
+    {foreach $vuz as $kus}
+        <ul>
+            <li>Vůz : <b>{$kus->spz} : {$kus->vyrobce_vozu} - {$kus->model_vozu}</b></li><hr>
+            <li>Oddělení : <b>{$kus->oddeleni}</b></li>
+            <li>Řidič : {$kus->jmeno} {$kus->prijmeni}</li>
+            <li>Zapůjčeno dne : {$kus->prirazeni_zacatek|date:'j. n. Y'}</li><hr>
+            <li>Ve vozovém parku od : {$kus->provoz_od|date:'j. n. Y'}</li>
+            <li>VIN : {$kus->vin}</li>
+            <li>Poslední servis : {$kus->posledni_servis|date:'j. n. Y'}</li>
+            <li>Posledni STK : {$kus->posledni_stk|date:'j. n. Y'}</li>
+            <li>Havárie a poruchy : {$kus->poruchy}</li>
+        </ul>
+    {/foreach}
+
+    <button class="btn-primary"><a n:href="upravit $kus->id_vozu" class='white'> EDITOVAT </a></button>
+    
+</div>
+
+{*<h2><a href="{link Vuz:vuz $vuz->vin}">{$vuz->spz}</a></h2>    *}
+
+
+
+
+
+
+{*<div class="date">{$vuz->provoz_od|date:'F j, Y'}</div>*}
+
+{*<div class="post">{$vuz->vyrobce_vozu} - {$vuz->model_vozu}</div>*}
+{/block}

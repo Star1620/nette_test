@@ -1,0 +1,31 @@
+{* This is the welcome page, you can delete it *}
+{block content}
+<div class="container">
+        <div class="row">
+            <h1>Stránka - Vozy 2</h1>
+            <p><a n:href="Homepage:default">← zpět na výpis vozů</a></p>
+        </div>
+    {foreach $vozy as $kus}
+        <div class="row">
+            <div class="col-3">
+                <h1>Vůz č.{$kus->id}</h1>
+            </div>
+            <div class="col-3">
+                <h2>{$kus->vyrobce_vozu} - {$kus->model_vozu}</h2>
+            </div>
+            <div class="col-3">
+                <h2>SPZ : {$kus->spz}</h2>
+            </div>
+            <div class="col-3">
+
+            </div>
+        </div>
+    {/foreach}
+
+{*<div class="date">{$vuz->provoz_od|date:'F j, Y'}</div>*}
+
+
+    
+</div>
+{*<div class="post">{$vuz->vyrobce_vozu} - {$vuz->model_vozu}</div>*}
+{/block}
