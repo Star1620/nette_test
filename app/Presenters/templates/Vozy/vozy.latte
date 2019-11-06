@@ -1,31 +1,45 @@
-{* This is the welcome page, you can delete it *}
 {block content}
-<div class="container">
-        <div class="row">
-            <h1>Stránka - Vozy 2</h1>
-            <p><a n:href="Homepage:default">← zpět na výpis vozů</a></p>
-        </div>
-    {foreach $vozy as $kus}
-        <div class="row">
-            <div class="col-3">
-                <h1>Vůz č.{$kus->id}</h1>
-            </div>
-            <div class="col-3">
-                <h2>{$kus->vyrobce_vozu} - {$kus->model_vozu}</h2>
-            </div>
-            <div class="col-3">
-                <h2>SPZ : {$kus->spz}</h2>
-            </div>
-            <div class="col-3">
 
-            </div>
-        </div>
-    {/foreach}
-
-{*<div class="date">{$vuz->provoz_od|date:'F j, Y'}</div>*}
-
-
-    
+<div id="banner">
+    <h1 n:block=title>Vozový PARK</h1>
+    <p><a n:href="Homepage:default">← zpět na Homepage</a></p>
 </div>
-{*<div class="post">{$vuz->vyrobce_vozu} - {$vuz->model_vozu}</div>*}
+<div id="content">
+            <div class="row">
+                <div class="col-3"><b>ZOBRAZIT / SKRÝT :</b></div>
+                <div class="col-9">
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-primary btn-sm zobraz" id="spz">SPZ</button>
+                        <button class="btn btn-primary btn-sm zobraz" id="oddeleni">Oddělení:</button>
+                        <button class="btn btn-primary btn-sm zobraz" id="ridic">Přiřazeno řidiči:</button>
+                        <button class="btn btn-primary btn-sm zobraz" id="provozOd">Zapůjčeno:</button>
+                        <button class="btn btn-primary btn-sm zobraz" id="znacka">Značka vozu</button>
+                        
+                        <button class="btn btn-primary btn-sm zobraz" id="poruchy">Poruchy</button>
+                    </div>
+                </div><hr>
+            </div><hr>
+            <div class="row">
+                <div class="col-2 prvniSloupec"><b>SPZ</b></div>
+                <div class="col-1 druhySloupec"><b>Oddělení</b></div>
+                <div class="col-3 patySloupec"><b>Přiřazeno řidiči</b></div>
+                <div class="col-2 tretiSloupec"><b>Zapůjčeno</b></div>
+                <div class="col-3 ctvrtySloupec"><b>Značka vozu</b></div>
+
+                <div class="col-1 sestySloupec"><b>Poruchy</b></div>
+            </div>
+	{foreach $vozy as $vuz}
+            <div class="row">
+                <div class="col-2 prvniSloupec">{if $user->isInRole('spravcevozu') OR $user->isInRole('spravceadmin')}<a href="{link Vozy:vuz $vuz->vin}">{$vuz->spz}</a>{else}{$vuz->spz}{/if}</div>
+                <div class="col-1 druhySloupec">{$vuz->oddeleni}</div>
+                <div class="col-3 patySloupec">{$vuz->jmeno} {$vuz->prijmeni}</div>
+                <div class="col-2 tretiSloupec">{$vuz->prirazeni_zacatek|date:'Y-m-d'}</div>
+                <div class="col-3 ctvrtySloupec">{$vuz->vyrobce} - {$vuz->model}</div>
+
+                <div class="col-1 sestySloupec"></div>
+            </div>
+        {/foreach}    
+</div>
+
+
 {/block}

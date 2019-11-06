@@ -6,37 +6,54 @@
         
 </div>
 <div id="content">
-            <div class="row">
-                <div class="col-3"><b>ZOBRAZIT / SKRÝT :</b></div>
-                <div class="col-9">
-                    <div class="btn-group" role="group">
-                        <button class="btn btn-primary btn-sm zobraz" id="spz">SPZ</button>
-                        <button class="btn btn-primary btn-sm zobraz" id="oddeleni">Oddělení</button>
-                        <button class="btn btn-primary btn-sm zobraz" id="provozOd">Provoz od</button>
-                        <button class="btn btn-primary btn-sm zobraz" id="znacka">Značka vozu</button>
-                        <button class="btn btn-primary btn-sm zobraz" id="ridic">Přiřazeno řidiči</button>
-                        <button class="btn btn-primary btn-sm zobraz" id="poruchy">Poruchy</button>
-                    </div>
-                </div><hr>
-            </div>
-            <div class="row">
-                <div class="col-2 prvniSloupec"><b>SPZ</b></div>
-                <div class="col-1 druhySloupec"><b>Oddělení</b></div>
-                <div class="col-2 tretiSloupec"><b>Provoz od</b></div>
-                <div class="col-3 ctvrtySloupec"><b>Značka vozu</b></div>
-                <div class="col-3 patySloupec"><b>Přiřazeno řidiči</b></div>
-                <div class="col-1 sestySloupec"><b>Poruchy</b></div>
-            </div>
-	{foreach $vozy as $vuz}
-            <div class="row">
-                <div class="col-2 prvniSloupec"><a href="{link Vozy:vuz $vuz->vin}">{$vuz->spz}</a></div>
-                <div class="col-1 druhySloupec">{$vuz->oddeleni}</div>
-                <div class="col-2 tretiSloupec">{$vuz->prirazeni_zacatek|date:'Y-m-d'}</div>
-                <div class="col-3 ctvrtySloupec">{$vuz->vyrobce_vozu} - {$vuz->model_vozu}</div>
-                <div class="col-3 patySloupec">{$vuz->jmeno} {$vuz->prijmeni}</div>
-                <div class="col-1 sestySloupec">{$vuz->poruchy}</div>
-            </div>
-        {/foreach}    
+    <div class="row">
+        <h3>Ukázkové rozhraní pro správu vozového parku</h3>
+        <p>Testovací a ukázková aplikace v NETTE, na níž stále pracuji. 
+            Je postavena na databázi (<a n:href="Homepage:struktura">Struktura DB zde</a>) a v této chvíli aplikace obsahuje  : </p>
+        
+    </div>
+    <div class="row">
+        <div class="col-8">
+                <ol>
+                    <li><span class="modul">Moduly pro správu vozů:</span>
+                        <ul>
+                            <li id="vozy">Modul pro zobrazení všech vozů ve vozovém parku.</li>
+                            <li id="vuznovy">Modul pro vložení nového vozidla.</li>
+                            <li class="faade" id="vuzedit">Modul pro editaci vozidla.</li>
+                            <li class="faade" id="vuzprirazeni"><cite>Modul pro změnu přiřazení vozidla (v přípravě)</cite></li>
+                        </ul>
+                    </li>
+                    <li><span class="modul">Moduly pro správu řidičů:</span>
+                        <ul>
+                            <li>Modul pro zobrazení všech řidičů.</li>
+                            <li>Modul pro vložení nového řidiče.</li>
+                         </ul>
+                    </li>
+                    <li><span class="modul">Moduly pro správu uživatelů:</span>
+                        <ul>
+                            <li>Modul pro logování uživatele.</li>
+                            <li>Modul pro zobrazení všech uživatelů.</li>
+                            <li>Modul pro vložení nového uživatele.</li>
+                         </ul>
+                    </li>
+                    <li><span class="modul">Přístupy:</span>
+                        <ul>
+                            <li><span id="uzivatel">Uživatel : uzivatel@test.com + "uzivatel"</span></li>
+                            <li id="spravceodd">Správce dohledu oddělení : spravcedohleduoddeleni@test.com + "spravcedohleduoddeleni"</li>
+                            <li id="vedouciodd">Vedoucí oddělení : vedouci@test.com + "vedouci"</li>
+                            <li id="spravcedohledu">Správce dohledu : spravcedohledu@test.com + "spravcedohledu"</li>
+                            <li id="spravceparku">Správce vozového parku : spravceparku@test.com + "spravceparku"</li>
+                            <li id="admin">Administrátor : admin@test.com + "admin"</li>
+                         </ul>
+                    </li>
+                </ol>
+            </p>
+        </div>
+        <div class="col-4"><p id="popis_modulu"></p></div>
+    </div>
+    <div class="row">
+        <cite>Poslední aktualizace 2019-11-06</cite>
+    </div>
 </div>
 
 

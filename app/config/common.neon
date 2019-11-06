@@ -8,11 +8,12 @@ application:
 
 
 session:
-	expiration: 14 days
+	expiration: 1 days
+	autoStart: true
+	debugger: true
 
 
 services:
 	router: App\Router\RouterFactory::createRouter
-
-#services:
-#    authenticator: MojeAuthenticator
+	- App\Models\ViditelnostOddeleni
+	authenticator: App\Models\MojeAuthenticator

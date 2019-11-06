@@ -17,7 +17,9 @@
             <li>Řidič : {$kus->jmeno} {$kus->prijmeni}</li>
             <li>Zařazen ode dne : {$kus->rizeni_od|date:'Y-m-d'}</li><hr>
             <li>Nehody : {$kus->nehody}</li>
-            <li>Průkaz sk. C : {$kus->prukaz_c}</li>
+            <li>Průkaz sk. B : {if $kus->sk_b == 1} ANO {else} NE {/if}</li>
+            <li>Průkaz sk. C : {if $kus->sk_c == 1} ANO {else} NE {/if}</li>
+            <li>Průkaz pro VZV : {if $kus->sk_vzv == 1} ANO {else} NE {/if}</li>
             
         </ul>
     {/foreach}
@@ -25,10 +27,9 @@
     
     {foreach $vozidla as $kusvozu}
         <ul>
-            <li><b>{$kusvozu->spz} : {$kusvozu->vyrobce_vozu} {$kusvozu->model_vozu}</b></li>
+            <li><b>{$kusvozu->spz} : {$kusvozu->vyrobce} {$kusvozu->model}</b></li>
             <li>Platné : {$kusvozu->prirazeni_zacatek} - {$kusvozu->prirazeni_konec}</li>
             <li>Zařazen ode dne : {$kus->rizeni_od|date:'Y-m-d'}</li>
-            <li>Poruchy : {$kusvozu->poruchy}</li>
 
         </ul>
             <hr>

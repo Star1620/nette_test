@@ -1,0 +1,34 @@
+{block content}
+
+<div id="banner">
+    <h1 n:block=title>Uživatelé</h1>
+    <p><a n:href="Homepage:default">← zpět na Homepage</a></p>
+</div>
+
+<div id="content">
+   <div class="row">
+        <div class="col-2"><b>Uživatel / -ka:</b></div>
+        <div class="col-2"><b>Role:</b></div>
+        <div class="col-2"><b>Oddělení:</b></div>
+        <div class="col-2"><b>Založeno:</b></div>
+        <div class="col-2"><b>Ukončeno:</b></div>
+        <div class="col-2"><b>Řidič:</b></div>
+    </div>
+    
+    {foreach $uzivatele as $clovek}
+        <div class="row">
+            <div class="col-2"><a href="{link Uzivatele:uzivatel $clovek->username}">{$clovek->prijmeni} {$clovek->jmeno}</a></div>
+            <div class="col-2">{$clovek->role}</div>
+            <div class="col-2">{$clovek->oddeleni}</div>
+            <div class="col-2">{$clovek->rizeni_od}</div>
+            <div class="col-2"></div>
+            <div class="col-2"></div>
+            
+        </div>
+    {/foreach}
+
+ 
+    
+</div>
+
+{/block}

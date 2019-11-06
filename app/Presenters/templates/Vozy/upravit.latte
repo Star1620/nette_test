@@ -14,7 +14,7 @@
     {*form vuzForm*}
 
         <div class="row">
-            <h2><b>Vozidlo {$kus->spz} : {$kus->vyrobce_vozu} - {$kus->model_vozu} </b></h2>
+            <h2><b>Vozidlo {$kus->spz} : {$kus->vyrobce} - {$kus->model} </b></h2>
         </div>
         <div class="row">
             <div class="col-2">
@@ -52,7 +52,15 @@
                 </table>
             </div>
             <div class="col-6">
+                <div class="row">
                 {control vuzeditForm}
+                </div><br><hr>
+                <div class="row">
+                    <p><b> Přiřadit :</b></p>
+                </div>
+                <div class="row">
+                    {control vuzprirazeniForm}
+                </div>
             </div>
         </div>
         

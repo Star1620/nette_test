@@ -2,6 +2,9 @@ parameters:
 
 
 database:
-        dsn: 'mysql:host=127.0.0.1;dbname=vozovy_park'
+        dsn: 'mysql:host=127.0.0.1;dbname=xxxxx'
         user: root
         password:
+
+#services:
+#    authenticator: MojeAuthenticator

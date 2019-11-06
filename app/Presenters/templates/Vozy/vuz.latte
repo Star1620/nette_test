@@ -6,13 +6,14 @@
 
 	<h1 n:block=title>Vozový park - vůz</h1>
 
-        <p><a n:href="Homepage:default">← zpět na výpis vozů</a></p>
+        <p><a n:href="Vozy:vozy">← zpět na výpis vozů</a></p>
 </div>
 
 <div id="content">
     {foreach $vuz as $kus}
         <ul>
-            <li>Vůz : <b>{$kus->spz} : {$kus->vyrobce_vozu} - {$kus->model_vozu}</b></li><hr>
+            <li>Vůz : <b>{$kus->spz} : {$kus->vyrobce} - {$kus->model}</b></li>
+            <li>Palivo : {$kus->palivo}</li><hr>
             <li>Oddělení : <b>{$kus->oddeleni}</b></li>
             <li>Řidič : {$kus->jmeno} {$kus->prijmeni}</li>
             <li>Zapůjčeno dne : {$kus->prirazeni_zacatek|date:'j. n. Y'}</li><hr>
@@ -20,11 +21,11 @@
             <li>VIN : {$kus->vin}</li>
             <li>Poslední servis : {$kus->posledni_servis|date:'j. n. Y'}</li>
             <li>Posledni STK : {$kus->posledni_stk|date:'j. n. Y'}</li>
-            <li>Havárie a poruchy : {$kus->poruchy}</li>
+            <li>Havárie a poruchy : </li>
         </ul>
     {/foreach}
 
-    <button class="btn-primary"><a n:href="upravit $kus->id_vozu" class='white'> EDITOVAT </a></button>
+    <button class="btn-primary"><a n:href="upravit $kus->vin" class='white'> EDITOVAT </a></button>
     
 </div>
 

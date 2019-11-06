@@ -10,34 +10,53 @@
 </head>
 
 <body>
-	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+{*	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div> *}
 
     <div class="container"> 
         <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
 
 
                 <div class="btn-group" role="group" aria-label="left">
-                    <button class="btn btn-primary btn-sm"><a n:href="Homepage:default" class='white'>Vozový park</a></button>
+                    <button class="btn btn-secondary btn-sm"><a n:href="Homepage:default" class='white'>Homepage</a></button>
+                    {if $user->isLoggedIn()}
+                    <button class="btn btn-primary btn-sm"><a n:href="Vozy:vozy" class='white'>Vozový park</a></button>
+                    {/if}
+                    {if $user->isInRole('spravcevozu') OR $user->isInRole('spravceadmin')}
                     <button class="btn btn-secondary btn-sm"><a n:href="Vozy:novy" class='white'>Přidat vůz</a></button>
+                    {/if}
+                    {if $user->isInRole('vedoucioddeleni') OR $user->isInRole('spravcevozu') OR $user->isInRole('spravceadmin')}
                     <button class="btn btn-primary btn-sm"><a n:href="Vodici:vodici" class='white'>Řidiči</a></button>
+                    {/if}
+                    {if $user->isInRole('spravcevozu') OR $user->isInRole('spravceadmin')}
                     <button class="btn btn-secondary btn-sm"><a n:href="Vodici:novyridic" class="white">Přidat řidiče</a></button>
+                    {/if}
+                    {if $user->isInRole('spravceadmin')}
+                    <button class="btn btn-primary btn-sm"><a n:href="Uzivatele:uzivatele" class='white'>Uživatelé</a></button>
+                    <button class="btn btn-secondary btn-sm"><a n:href="Uzivatele:novyuzivatel" class="white">Přidat uživatele</a></button>
+                    {/if}
                 </div>
-              {*  <div class="btn-group my-2 my-sm-0" role="group" aria-label="right"> *}
-              <button class="btn btn-primary btn-sm my-2 my-sm-0"><a n:href="Homepage:default" class='white'>LOGOUT</a></button>
-              {*  </div> *}
+              
+            {if $user->loggedIn}Přihlášen uživatel: {$user->getIdentity()->username}
+                <button class="btn btn-primary btn-sm my-2 my-sm-0"><a n:href="Uzivatele:out" class='white'>LOGOUT</a></button>
+            {/if}
+            {if !$user->loggedIn}    <button class="btn btn-primary btn-sm my-2 my-sm-0"><a n:href="Uzivatele:prihlaseni" class='white'>LOGIN</a></button>
+            {/if}
         </div>
-        
+        <div id="content">
+            <div class="row">
+                <div n:foreach="$flashes as $flash" n:class="flash, $flash->type"><h3>{$flash->message}</h3></div>
+            </div>
 	{include content}
 
 	{block scripts}
-        
+        </div>
     </div>    
         
 	<script src="https://nette.github.io/resources/js/3/netteForms.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-	<script type='text/javascript' src="{$basePath}/js/upravy.js">
+	<script type='text/javascript' src="{$basePath}/js/upravy.js"></script>
         {/block}
 </body>
 </html>

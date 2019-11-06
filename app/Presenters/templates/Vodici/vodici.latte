@@ -1,10 +1,8 @@
 {block content}
 
 <div id="banner">
-
-	<h1 n:block=title>Přehled řidičů</h1>
-
-        <p><a n:href="Homepage:default">← zpět na Vozový park</a></p>
+    <h1 n:block=title>Přehled řidičů</h1>
+    <p><a n:href="Homepage:default">← zpět na Homepage</a></p>
 </div>
 
 <div id="content">
@@ -19,11 +17,11 @@
     {foreach $vodici as $kus}
        
             <div class="row">
-                <div class="col-3"><a href="{link Vodici:ridic $kus->id}">{$kus->jmeno} {$kus->prijmeni}</a></div>
+                <div class="col-3"><a href="{link Vodici:ridic $kus->email}">{$kus->jmeno} {$kus->prijmeni}</a></div>
                 <div class="col-2">{$kus->oddeleni}</a></div>
                 <div class="col-2">{$kus->rizeni_od|date:'Y-m-d'}</a></div>
                 <div class="col-2">{$kus->nehody}</div>
-                <div class="col-2">{$kus->prukaz_c}</div>
+                <div class="col-2">{$kus->sk_c}</div>
             </div>
     {/foreach}
    
