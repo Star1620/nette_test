@@ -38,7 +38,7 @@ class VozyPresenter extends Nette\Application\UI\Presenter {
     
     public function renderVuz(string $vin) {
   
-     $this->template->vuz = $this->database->query('SELECT vin, spz, provoz_od, provoz_do, posledni_servis, posledni_stk, pneu, rid_prukaz, jmeno, prijmeni, oddeleni, prirazeni_zacatek, prirazeni_konec, vyrobce, model, palivo, servisni_prohlidky_mesice FROM prirazeni_vozu_ridici'
+     $this->template->vuz = $this->database->query('SELECT vin, spz, provoz_od, provoz_do, posledni_servis, posledni_stk, vuz_poznamka, pneu, rid_prukaz, jmeno, prijmeni, oddeleni, prirazeni_zacatek, prirazeni_konec, vyrobce, model, palivo, servisni_prohlidky_mesice FROM prirazeni_vozu_ridici'
              . ' INNER JOIN vozy ON prirazeni_vozu_ridici.id_vozu = vozy.vin'
              . ' INNER JOIN ridici ON prirazeni_vozu_ridici.email_ridice = ridici.email'
              . ' LEFT JOIN modely_vozu ON modely_vozu.id_modelu_vozu = vozy.model_vozu'

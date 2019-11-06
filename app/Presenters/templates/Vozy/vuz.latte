@@ -21,7 +21,8 @@
             <li>VIN : {$kus->vin}</li>
             <li>Poslední servis : {$kus->posledni_servis|date:'j. n. Y'}</li>
             <li>Posledni STK : {$kus->posledni_stk|date:'j. n. Y'}</li>
-            <li>Havárie a poruchy : </li>
+            <li>Havárie a poruchy : </li><hr>
+            <li>Poznámka : {$kus->vuz_poznamka}</li>
         </ul>
     {/foreach}
 

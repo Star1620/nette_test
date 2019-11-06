@@ -4,10 +4,11 @@
 <div id="banner">
 
 	<h1 n:block=title>Editace vozidla</h1>
-}
+
         {foreach $vuz as $kus}
-            <p><a n:href="Vozy:vuz $kus->vin">← zpět na detail vozidla</a></p>
+            
         {/foreach}
+        <p><a n:href="Vozy:vuz $kus->vin">← zpět na detail vozidla</a></p>
 </div>
 
 <div id="content">
