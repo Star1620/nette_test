@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Presenters;
 
 use Nette;
-use Nette\Security\IAuthenticator;
+
 
 
 final class HomepagePresenter extends Nette\Application\UI\Presenter

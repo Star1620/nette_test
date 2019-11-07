@@ -12,19 +12,13 @@ class VozyPresenter extends Nette\Application\UI\Presenter {
     
     private $database;
     private $idservisu = 'servis@test.com';  // nové vozy jsou automaticky přiřazeny servisu, než budou prohlédnuty a přiděleny řidiči
-//    private $viditelnost;
+
     
     
     public function __construct(Nette\Database\Context $database) {
         $this->database = $database;
     }
-            
-//    private function zobrazOddeleni() {
-//
-//        $this->viditelnost = $this->ViditelnostOddeleni()->zobrazOddeleni();
-//        
-//    }
-    
+ 
     public function renderVozy(): void {
         $this->template->vozy = $this->database->query('SELECT vin, spz, provoz_od, prirazeni_zacatek, prirazeni_konec, jmeno, prijmeni, oddeleni, vyrobce, model FROM vozy'
              . ' INNER JOIN prirazeni_vozu_ridici ON vozy.vin = prirazeni_vozu_ridici.id_vozu'
@@ -53,8 +47,6 @@ class VozyPresenter extends Nette\Application\UI\Presenter {
         $form->addtext('vin', 'VIN:')->setRequired();
         $form->addtext('spz', 'SPZ:')->setRequired();
         $form->addSelect('model_vozu', 'Model vozu:', $vyberModelvozu);
-    //    $form->addSelect('oddeleni', 'Oddělení:', array('servis', 'obchod', 'prodej'));
-    //    $form->addtext('ridic', 'Řidič:');
         $form->addText('posledni_servis', 'Poslední datum servisu :');
         $form->addText('posledni_stk', 'Posledni datum STK :');
         $form->addSelect('pneu', 'Pneu na vozidle:', array('letni' => 'letní', 'zimni' => 'zimní', 'celorocni' => 'celoroční'));
@@ -105,11 +97,8 @@ class VozyPresenter extends Nette\Application\UI\Presenter {
         $vyberRidici = $this->vytvorVyberRidici();
         $form = new Form;
 
- //       $form->addSelect('oddeleni', 'Oddělení:', array('servis' => 'servis', 'obchod' => 'obchod', 'prodej' => 'prodej'));
- //       $form->addSelect('ridic', 'Řidič:', $vyberRidici);
         $form->addText('posledni_servis', 'Poslední datum servisu :');
         $form->addText('posledni_stk', 'Posledni datum STK :');
-//        $form->addHidden('vuz', $this->vin);
         $form->addSubmit('send', ' ODESLAT ');
         $form->onSuccess[] = [$this, 'vuzupdateFormSucceeded'];
         return $form;
@@ -120,9 +109,7 @@ class VozyPresenter extends Nette\Application\UI\Presenter {
         $vyberRidici = $this->vytvorVyberRidici();
         $form = new Form;
 
-//        $form->addSelect('oddeleni', 'Oddělení:', array('servis' => 'servis', 'obchod' => 'obchod', 'prodej' => 'prodej'));
         $form->addSelect('ridic', 'Řidič:', $vyberRidici);
-        
         $form->addSubmit('send', ' ODESLAT ');
         $form->onSuccess[] = [$this, 'vuzprirazeniFormSucceeded'];
         return $form;
@@ -159,10 +146,7 @@ class VozyPresenter extends Nette\Application\UI\Presenter {
     }
 
     public function vuzFormSucceeded(Form $form, array $values): void {
-        
-        
-//        $vuzPridej = $this->database->table('vozy')->insert($values);
-        
+      
         try {
             $this->database->table('vozy')->insert($values);
             $this->vlozPrirazeni($values['vin'], $this->idservisu);  // příjem nového vozu servisem, než bude přiřazeno
@@ -187,26 +171,14 @@ class VozyPresenter extends Nette\Application\UI\Presenter {
     
     public function vuzprirazeniFormSucceeded(Form $form, array $values): void {
         $id = $this->getParameter('id');
- //       $vuzUpdate = $this->database->table('prirazeni_vozu_ridici')->get($id)->update($values);
-//        $vuzUpdate->update($values);
-        // vyhledaní zda vin má prirazeni_konec vyšší než předané datum
-        
-//        if(!$hledani['email_ridice'] = $this->database->query('SELECT email_ridice FROM prirazeni_vozu_ridici '
-//                . ' WHERE id_vozu = "'.$id.'" '
-//                . ' AND prirazeni_konec > "'.date("Y-m-d H-i-s").'"')) {
+
        if(!$hledani = $this->database->table('prirazeni_vozu_ridici')->where('id_vozu = ?', $id)->where('prirazeni_konec > ?', date('Y-m-d H-i-s'))->update(array('prirazeni_konec' => date('Y-m-d H-i-s'))) ) {
+             $form->addError('Nepodařilo se přiřadit vůz řidiči.');
         
-        
-            echo "<br> přiřazení nenalezeno.";
-            die();
         } else {
             $this->vlozPrirazeni($id, $values['ridic']);
             $form->addError('Vozidlo bylo přiřazeno.');
         }
-        
-                
-//            $this->flashMessage('Záznam vozidla byl vložen', 'success');
-//            $this->redirect('Vozy:vuz', $vuzUpdate['vin']);
     }
     
 }
