@@ -1,2 +1,3 @@
 # nette_test
-Testování NETTE funkcí. Ukázka z běžící aplikace, kterou je možné vidět na www.ceskyvolic.cz
+It's only part of working NETTE app, which is on www.ceskyvolic.cz
+It's for testing NETTE functions. Build on PHP NETTE framework, MySQL, jQuery and Bootstrap.
