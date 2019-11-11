@@ -12,7 +12,6 @@ use Nette\Utils\DateTime;
 class UzivatelePresenter extends Nette\Application\UI\Presenter {
     
     private $database;
-
     
     public function __construct(Nette\Database\Context $database) {
         $this->database = $database;
@@ -23,10 +22,28 @@ class UzivatelePresenter extends Nette\Application\UI\Presenter {
         $form = new Form;
     
         $form->addtext('username', 'Zadejte email:')->setRequired();
-        $form->addtext('password', 'Heslo:')->setRequired();
+        $form->addPassword('password', 'Heslo:')->setRequired();
         $form->addSubmit('send', ' ODESLAT ');
         $form->onSuccess[] = [$this, 'prihlaseniFormSucceeded'];
         return $form;
+    }
+    
+    private function seznamRoli() {
+        $nacteneRole = $this->database->table('role');
+        $seznamRoli = array();
+        foreach ($nacteneRole as $key) {
+            $seznamRoli += [$key["kod_role"] => $key["nazev_role"]];
+        }
+        return $seznamRoli;
+    }
+    
+    private function seznamOddeleni() {
+        $nacteneOddeleni = $this->database->table('oddeleni');
+        $seznamOddeleni = array();
+        foreach ($nacteneOddeleni as $key) {
+            $seznamOddeleni += [$key["nazev_oddeleni"] => $key["nazev_oddeleni"]];
+        }
+        return $seznamOddeleni;
     }
 
     protected function createComponentNovyuzivatelForm(): Form {
@@ -36,9 +53,9 @@ class UzivatelePresenter extends Nette\Application\UI\Presenter {
         $form->addtext('jmeno', 'Jméno:')->setRequired();
         $form->addtext('prijmeni', 'Příjmení:')->setRequired();
         $form->addEmail('email', 'Email:')->setRequired();
-        $form->addSelect('oddeleni', 'Oddělení:', array('servis' => 'servis', 'obchod' => 'obchod', 'prodej' => 'prodej'));
+        $form->addSelect('oddeleni', 'Oddělení:', $this->seznamOddeleni());
         $form->addPassword('password', 'Heslo:')->setRequired();
-        $form->addSelect('role', 'Role:', array( 'uzivatel'=>'Příslušník oddělení', 'vedoucioddeleni'=>'Vedoucí oddělení', 'spravcedohleduoddeleni'=>'Správce dohledu oddělení', 'spravcedohledu'=>'Správce dohledu', 'spravcevozu'=>'Správce vozového parku', 'spravceadmin'=>'Správce Admin'))->setRequired();
+        $form->addSelect('role', 'Role:', $this->seznamRoli())->setRequired();
         $form->addSelect('aktivniridic', 'Uložit jako aktivního řidiče: ', array(1=>'ANO', 0=> 'NE'));
         $form->addSelect('sk_b', 'Vlastník ř. průkazu sk. B: ', array(1=>'ANO', 0=> 'NE'));
         $form->addSelect('sk_c', 'Vlastník ř. průkazu sk. C: ', array(0=> 'NE', 1=>'ANO'));
@@ -54,6 +71,7 @@ class UzivatelePresenter extends Nette\Application\UI\Presenter {
                 . ' JOIN ridici ON ridici.email = users.username'
                 . ' ORDER BY oddeleni, prijmeni, rizeni_od');
         
+        $this->seznamRoli();
     }
     
     public function renderUzivatel(string $username): void {
@@ -70,7 +88,7 @@ class UzivatelePresenter extends Nette\Application\UI\Presenter {
         $this->redirect('Homepage:default');
     }
 
-    private function ulozSession(string $username, string $role) {
+    private function ulozSession(string $username, int $role) {
         
         $idSess = session_id();
         $ipSess = $_SERVER["REMOTE_ADDR"];

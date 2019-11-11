@@ -30,7 +30,7 @@
             </div>
 	{foreach $vozy as $vuz}
             <div class="row">
-                <div class="col-2 prvniSloupec">{if $user->isInRole('spravcevozu') OR $user->isInRole('spravceadmin')}<a href="{link Vozy:vuz $vuz->vin}">{$vuz->spz}</a>{else}{$vuz->spz}{/if}</div>
+                <div class="col-2 prvniSloupec">{if $user->isInRole('spravcevozu') OR $user->roles['role'] < 20}<a href="{link Vozy:vuz $vuz->vin}">{$vuz->spz}</a>{else}{$vuz->spz}{/if}</div>
                 <div class="col-1 druhySloupec">{$vuz->oddeleni}</div>
                 <div class="col-3 patySloupec">{$vuz->jmeno} {$vuz->prijmeni}</div>
                 <div class="col-2 tretiSloupec">{$vuz->prirazeni_zacatek|date:'Y-m-d'}</div>
@@ -40,5 +40,6 @@
             </div>
         {/foreach}    
 </div>
+
 
 {/block}

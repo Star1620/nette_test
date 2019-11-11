@@ -6,7 +6,6 @@ namespace App\Presenters;
 
 use Nette;
 use Nette\Application\UI\Form;
-use Nette\Security\IAuthenticator;
 
 class VodiciPresenter extends Nette\Application\UI\Presenter {
     
@@ -32,8 +31,7 @@ class VodiciPresenter extends Nette\Application\UI\Presenter {
     }
     
      public function renderRidic(string $id): void {
-        if($this->user->isInRole('vedoucioddeleni') OR $this->user->isInRole('spravceadmin') OR $this->user->isInRole('spravcevozu')){
-            
+        if($this->user->roles['role'] < 20){
       
         $this->template->ridic = $this->database->table('ridici')
                 ->where('email', $id)
@@ -44,25 +42,29 @@ class VodiciPresenter extends Nette\Application\UI\Presenter {
              . ' LEFT JOIN modely_vozu ON modely_vozu.id_modelu_vozu = vozy.model_vozu'
              . ' WHERE email_ridice = "'.$id.'";');
         } else {
-            $this->flashMessage('Přístup pouze pro přihlášené vedoucího oddělení.', 'false');
+            $this->flashMessage('Přístup pouze pro přihlášeného vedoucího oddělení.', 'false');
             $this->redirect('Homepage:default'); 
         }
         
-        }
+    }
     
+    private function seznamOddeleni() {
+        $nacteneOddeleni = $this->database->table('oddeleni');
+        $seznamOddeleni = array();
+        foreach ($nacteneOddeleni as $key) {
+            $seznamOddeleni += [$key["nazev_oddeleni"] => $key["nazev_oddeleni"]];
+        }
+        return $seznamOddeleni;
+    }
+        
     protected function createComponentNovyridicForm(): Form {
         
-        $seznamOddeleni = array(
-            'servis' => 'servis',
-            'obchod' => 'obchod',
-            'prodej' => 'prodej'
-            );
         $form = new Form;
     
         $form->addtext('jmeno', 'Jméno:')->setRequired();
         $form->addtext('prijmeni', 'Příjmení:')->setRequired();
         $form->addEmail('email', 'Email:')->setRequired();
-        $form->addSelect('oddeleni', 'Oddělení:', $seznamOddeleni);
+        $form->addSelect('oddeleni', 'Oddělení:', $this->seznamOddeleni());
         $form->addCheckbox('sk_b', ' - vlastník ř.průkazu sk. B');
         $form->addCheckbox('sk_c', ' - vlastník ř.průkazu sk. C');
         $form->addCheckbox('sk_vzv', ' - vlastník ř.průkazu pro vysokozdvižný vozík');
@@ -84,9 +86,7 @@ class VodiciPresenter extends Nette\Application\UI\Presenter {
             $this->flashMessage('Nepodařilo se vložit nového řidiče !', 'false');
             $this->redirect('Vodici:vodici');
         }
-        
-               
-        
+  
         
     }
     

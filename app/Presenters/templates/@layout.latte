@@ -4,34 +4,31 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        
         <link rel="stylesheet" href="{$basePath}/css/vlozenystyl.css">
         <title>{ifset title}{include title|stripHtml} | {/ifset}Nette Web</title>
 </head>
-
 <body>
 
     <div class="container"> 
         <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
-
-
                 <div class="btn-group" role="group" aria-label="left">
                     <button class="btn btn-secondary btn-sm"><a n:href="Homepage:default" class='white'>Homepage</a></button>
                     {if $user->isLoggedIn()}
-                    <button class="btn btn-primary btn-sm"><a n:href="Vozy:vozy" class='white'>Vozový park</a></button>
-                    {/if}
-                    {if $user->isInRole('spravcevozu') OR $user->isInRole('spravceadmin')}
-                    <button class="btn btn-secondary btn-sm"><a n:href="Vozy:novy" class='white'>Přidat vůz</a></button>
-                    {/if}
-                    {if $user->isInRole('vedoucioddeleni') OR $user->isInRole('spravcevozu') OR $user->isInRole('spravceadmin')}
-                    <button class="btn btn-primary btn-sm"><a n:href="Vodici:vodici" class='white'>Řidiči</a></button>
-                    {/if}
-                    {if $user->isInRole('spravcevozu') OR $user->isInRole('spravceadmin')}
-                    <button class="btn btn-secondary btn-sm"><a n:href="Vodici:novyridic" class="white">Přidat řidiče</a></button>
-                    {/if}
-                    {if $user->isInRole('spravceadmin')}
-                    <button class="btn btn-primary btn-sm"><a n:href="Uzivatele:uzivatele" class='white'>Uživatelé</a></button>
-                    <button class="btn btn-secondary btn-sm"><a n:href="Uzivatele:novyuzivatel" class="white">Přidat uživatele</a></button>
+                        <button class="btn btn-primary btn-sm"><a n:href="Vozy:vozy" class='white'>Vozový park</a></button>
+
+                        {if $user->roles['role'] < 30}
+                        <button class="btn btn-secondary btn-sm"><a n:href="Vozy:novy" class='white'>Přidat vůz</a></button>
+                        {/if}
+                        {if $user->roles['role'] < 40 OR $user->roles['role'] > 50}
+                        <button class="btn btn-primary btn-sm"><a n:href="Vodici:vodici" class='white'>Řidiči</a></button>
+                        {/if}
+                        {if $user->roles['role'] < 30}
+                        <button class="btn btn-secondary btn-sm"><a n:href="Vodici:novyridic" class="white">Přidat řidiče</a></button>
+                        {/if}
+                        {if $user->roles['role'] < 20}
+                        <button class="btn btn-primary btn-sm"><a n:href="Uzivatele:uzivatele" class='white'>Uživatelé</a></button>
+                        <button class="btn btn-secondary btn-sm"><a n:href="Uzivatele:novyuzivatel" class="white">Přidat uživatele</a></button>
+                        {/if}
                     {/if}
                 </div>
               

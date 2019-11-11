@@ -1,17 +1,16 @@
 {block content}
-
 <div id="banner">
     <h1 n:block=title>Detail uživatele</h1>
     <p><a n:href="Uzivatele:uzivatele">← zpět na Seznam uživatelů</a></p>
 </div>
 <div id="content">
-    
     {foreach $uzivatel as $kus}
         <ul>
             <li><b>{$kus->jmeno} {$kus->prijmeni}</b></li><hr>
             <li>Oddělení : <b>{$kus->oddeleni}</b></li>
             <li>Řidič : {if $kus->rizeni_od <= date('Y-m-d H-i-s') AND $kus->rizeni_do > date('Y-m-d H-i-s')} aktivní řidič {else} není v databázi aktivních řidičů {/if}</li>
             <li>Zařazen ode dne : {$kus->rizeni_od|date:'Y-m-d'}</li><hr>
+           
         </ul>
     {/foreach}
    

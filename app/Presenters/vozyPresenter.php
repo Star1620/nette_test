@@ -6,19 +6,16 @@ namespace App\Presenters;
 
 use Nette;
 use Nette\Application\UI\Form;
-//use App\Models\ViditelnostOddeleni;
 
 class VozyPresenter extends Nette\Application\UI\Presenter {
     
     private $database;
     private $idservisu = 'servis@test.com';  // nové vozy jsou automaticky přiřazeny servisu, než budou prohlédnuty a přiděleny řidiči
-
-    
     
     public function __construct(Nette\Database\Context $database) {
         $this->database = $database;
     }
- 
+            
     public function renderVozy(): void {
         $this->template->vozy = $this->database->query('SELECT vin, spz, provoz_od, prirazeni_zacatek, prirazeni_konec, jmeno, prijmeni, oddeleni, vyrobce, model FROM vozy'
              . ' INNER JOIN prirazeni_vozu_ridici ON vozy.vin = prirazeni_vozu_ridici.id_vozu'
@@ -78,6 +75,8 @@ class VozyPresenter extends Nette\Application\UI\Presenter {
         
         $vyberRidici = array();
         $nacteniRidicu = $this->database->table('ridici')
+                ->where('rizeni_od < ?', date('Y-m-d'))
+                ->where('rizeni_do > ?', date('Y-m-d'))
                 ->order('oddeleni');
         if(!$nacteniRidicu) {
             $this->flashMessage('Nenačtena DATA !', 'false');
@@ -85,7 +84,7 @@ class VozyPresenter extends Nette\Application\UI\Presenter {
         } else {
             foreach ($nacteniRidicu as $value) {
                 $klic = $value->email;
-                $hodnota = $value->oddeleni." - ".$value->prijmeni." ".$value->jmeno;
+                $hodnota = $value->oddeleni." - ".$value->jmeno." ".$value->prijmeni;
                 $vyberRidici += [ $klic => $hodnota ];
             }
         }
@@ -123,7 +122,6 @@ class VozyPresenter extends Nette\Application\UI\Presenter {
              . ' INNER JOIN ridici ON prirazeni_vozu_ridici.email_ridice = ridici.email'
              . ' INNER JOIN modely_vozu ON modely_vozu.id_modelu_vozu = vozy.model_vozu'
              . ' WHERE prirazeni_konec > "'.date("Y-m-d H-i-s").'" AND vin = "'.$id.'" LIMIT 1;');
-        
     }
     
     public function actionUpravit(string $id): void {
@@ -146,7 +144,7 @@ class VozyPresenter extends Nette\Application\UI\Presenter {
     }
 
     public function vuzFormSucceeded(Form $form, array $values): void {
-      
+             
         try {
             $this->database->table('vozy')->insert($values);
             $this->vlozPrirazeni($values['vin'], $this->idservisu);  // příjem nového vozu servisem, než bude přiřazeno
@@ -155,8 +153,6 @@ class VozyPresenter extends Nette\Application\UI\Presenter {
            
         } catch(Nette\Database\DriverException $e) {
             $form->addError('Nepodařilo se uložit vůz do databáze - VIN: '.$values["vin"].' již existuje.');
-//            $this->flashMessage('Záznam vozidla do přiřazovací tabulky nebyl vložen !', 'false');
-//            $this->redirect('Homepage:default');
         }
 
     }
@@ -173,12 +169,14 @@ class VozyPresenter extends Nette\Application\UI\Presenter {
         $id = $this->getParameter('id');
 
        if(!$hledani = $this->database->table('prirazeni_vozu_ridici')->where('id_vozu = ?', $id)->where('prirazeni_konec > ?', date('Y-m-d H-i-s'))->update(array('prirazeni_konec' => date('Y-m-d H-i-s'))) ) {
-             $form->addError('Nepodařilo se přiřadit vůz řidiči.');
-        
+   
+            echo "<br> přiřazení nenalezeno.";
+            die();
         } else {
             $this->vlozPrirazeni($id, $values['ridic']);
             $form->addError('Vozidlo bylo přiřazeno.');
         }
+
     }
     
 }
